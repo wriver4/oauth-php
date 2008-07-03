@@ -104,7 +104,7 @@ exit();
 }}}
 
 
-= Step 3: Exchange Request Token For Access Token
+= Step 3: Exchange Request Token For Access Token =
 
 You also have to implement a callback http handler.  This is called by the OAuth server whenever the user authorized our request token.  When we are authorized, then we can exchange our request token for an access token.
 
