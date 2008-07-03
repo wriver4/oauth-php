@@ -1,4 +1,5 @@
 #summary OAuth Consumer How To
+#labels Featured
 
 = OAuth Consumer =
 
