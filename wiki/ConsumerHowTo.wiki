@@ -4,6 +4,15 @@
 
 This gives an overview how you can use the `oauth-php` library when you want to connect to a server.
 
+The steps you need to do to get access to a server are:
+
+ # Add the server consumer_key and secret to the OAuth library
+ # Obtain an access token to the server
+ # Authorize the access token (exchanging it for a request token)
+
+And now you can make signed requests to the server.
+
+
 = Add, List And Delete Servers =
 
 == Add the OAuth server to which you want to connect ==
