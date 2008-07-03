@@ -59,8 +59,6 @@ Before you can make OAuth signed calls to an OAuth enabled server, you have to o
 
 First we need to obtain a request token from the OAuth server.  The OAuthRequester will request an instance of the OAuthStore for finding the needed uris.  When you don't use the default MySQL store you will need to request an instance of the store (supplying the correct initialisation parameters) before calling the method below.
 
-I assume you have somewhere a function `uri_append()`.
-
 {{{
 // Fetch the id of the current user
 $user_id = 1;
@@ -75,13 +73,20 @@ $callback_uri = 'http://www.mysite.com/callback?consumer_key='.rawurlencode($con
 if (!empty($token['authorize_uri']))
 {
     // Redirect to the server, add a callback to our server
-    $uri = uri_append($token['authorize_uri'], 
-                      array('oauth_token' => $token['token'],'oauth_callback' => $callback_uri) );
-}
+    if (strpos($token['authorize_uri', '?'))
+    {
+        $uri = $token['authorize_uri'] . '&'; 
+    }
+    else
+    {
+        $uri = $token['authorize_uri'] . '?'; 
+    }
+    $uri .= 'oauth_token='.rawurlencode($token['token']).'&ouathcallback='.rawurlencode($callback_uri);
+ 
 else
 {
     // No authorization uri, assume we are authorized, exchange request token for access token
-   $uri = uri_append($callback_uri, array('oauth_token' => $token['token']));
+   $uri = $callback_uri . '&oauth_token='.rawurlencode($token['token']);
 }
 
 header('Location: '.$uri);
