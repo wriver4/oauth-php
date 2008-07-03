@@ -13,7 +13,7 @@ The steps you need to do to get access to a server are:
 And now you can make signed requests to the server.
 
 
-= Add, List And Delete Servers =
+= Step 1: Add Server To OAuth =
 
 == Add the OAuth server to which you want to connect ==
 
@@ -62,7 +62,7 @@ $store->deleteServer($consumer_key, $user_id);
 }}}
 
 
-= Obtain Access To A Server =
+= Step 2: Obtain Access To A Server =
 
 Before you can make OAuth signed calls to an OAuth enabled server, you have to obtain authorization from an user on that server.  This can be done with the `OAuthRequester` class.
 
@@ -103,6 +103,9 @@ exit();
 
 }}}
 
+
+= Step 3: Exchange Request Token For Access Token
+
 You also have to implement a callback http handler.  This is called by the OAuth server whenever the user authorized our request token.  When we are authorized, then we can exchange our request token for an access token.
 
 As an example I add an exception handler, all OAuth methods can throw OAuthException exceptions.
@@ -127,7 +130,7 @@ catch (OAuthException $e)
 }}}
 
 
-= Make A Signed Request =
+= Step 4: Make A Signed Request =
 
 When you make a request to an OAuth enabled server you need to sign it with the access token and secrets we obtained when we obtained access to the server.
  
