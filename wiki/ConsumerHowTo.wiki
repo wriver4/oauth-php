@@ -82,7 +82,7 @@ if (!empty($token['authorize_uri']))
         $uri = $token['authorize_uri'] . '?'; 
     }
     $uri .= 'oauth_token='.rawurlencode($token['token']).'&ouathcallback='.rawurlencode($callback_uri);
- 
+}
 else
 {
     // No authorization uri, assume we are authorized, exchange request token for access token
