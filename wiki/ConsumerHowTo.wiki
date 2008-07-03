@@ -53,7 +53,7 @@ $store->deleteServer($consumer_key, $user_id);
 }}}
 
 
-= Connect To A Server =
+= Obtain Access To A Server =
 
 Before you can make OAuth signed calls to an OAuth enabled server, you have to obtain authorization from an user on that server.  This can be done with the `OAuthRequester` class.
 
@@ -71,16 +71,60 @@ $callback_uri = 'http://www.mysite.com/callback?consumer_key='.rawurlencode($con
 if (!empty($token['authorize_uri']))
 {
     // Redirect to the server, add a callback to our server
-    // We will sign with the request token we obtained
     $uri = uri_append($token['authorize_uri'], 
-                                    array('oauth_token' => $token['token'],'oauth_callback' => $callback_uri) );
-
-...
+                      array('oauth_token' => $token['token'],'oauth_callback' => $callback_uri) );
 }
 else
 {
     // No authorization uri, assume we are authorized, exchange request token for access token
    $uri = uri_append($callback_uri, array('oauth_token' => $token['token']));
 }
+
+header('Location: '.$uri);
+exit();
+
 }}}
 
+You also have to implement a callback http handler.  This is called by the OAuth server whenever the user authorized our request token.  When we are authorized, then we can exchange our request token for an access token.
+
+As an example I add an exception handler, all OAuth methods can throw OAuthException exceptions.
+
+{{{
+try
+{
+    OAuthRequester::requestAccessToken($consumer_key, $oauth_token, $user_id);
+}
+catch (OAuthException $e)
+{
+    // Something wrong with the oauth_token.
+    // Could be:
+    // 1. Was already ok
+    // 2. We were not authorized
+}
+}}}
+
+
+= Make A Signed Request =
+
+When you make a request to an OAuth enabled server you need to sign it with the access token and secrets we obtained when we obtained access to the server.
+ 
+The OAuthStore and the OAuth objects work closely together.  The OAuth requester will find the correct credentials by examining the uri of the request being made. This makes signing requests very easy.
+
+{{{
+// The request uri being called.
+$request_uri = 'http://www.example.com/api';
+
+// Parameters, appended to the request depending on the request method.
+// Will become the POST body or the GET query string.
+$params = array(
+           'method' => 'ping'
+     );
+
+// Obtain a request object for the request we want to make
+$req = new OAuthRequester($request_uri, 'GET', $params);
+
+// Sign the request, perform a curl request and return the results, throws OAuthException exception on an error
+$result = $req->doRequest($user_id);
+
+// $result is an array of the form: array ('code'=>int, 'headers'=>array(), 'body'=>string)
+}}}
