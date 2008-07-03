@@ -75,7 +75,7 @@ $user_id = 1;
 // Obtain a request token from the server
 $token = OAuthRequester::requestRequestToken($consumer_key, $user_id);
 
-// Callback to my site, will be called when we finished the authorization
+// Callback to our (consumer) site, will be called when the user finished the authorization at the server
 $callback_uri = 'http://www.mysite.com/callback?consumer_key='.rawurlencode($consumer_key).'&usr_id='.intval($user_id);
 
 // Now redirect to the autorization uri and get us authorized
