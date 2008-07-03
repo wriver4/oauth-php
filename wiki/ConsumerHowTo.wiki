@@ -81,7 +81,7 @@ if (!empty($token['authorize_uri']))
     {
         $uri = $token['authorize_uri'] . '?'; 
     }
-    $uri .= 'oauth_token='.rawurlencode($token['token']).'&ouathcallback='.rawurlencode($callback_uri);
+    $uri .= 'oauth_token='.rawurlencode($token['token']).'&oauth_callback='.rawurlencode($callback_uri);
 }
 else
 {
