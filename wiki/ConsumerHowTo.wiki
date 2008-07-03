@@ -62,10 +62,14 @@ First we need to obtain a request token from the OAuth server.  The OAuthRequest
 I assume you have somewhere a function `uri_append()`.
 
 {{{
+// Fetch the id of the current user
+$user_id = 1;
+
+// Obtain a request token from the server
 $token = OAuthRequester::requestRequestToken($consumer_key, $user_id);
 
 // Callback to my site, will be called when we finished the authorization
-$callback_uri = 'http://www.mysite.com/callback?consumer_key='.rawurlencode($consumer_key);
+$callback_uri = 'http://www.mysite.com/callback?consumer_key='.rawurlencode($consumer_key).'&usr_id='.intval($user_id);
 
 // Now redirect to the autorization uri and get us authorized
 if (!empty($token['authorize_uri']))
@@ -90,6 +94,11 @@ You also have to implement a callback http handler.  This is called by the OAuth
 As an example I add an exception handler, all OAuth methods can throw OAuthException exceptions.
 
 {{{
+// Request parameters are oauth_token, consumer_key and usr_id.
+$consumer_key = $_GET['consumer_key'];
+$oauth_token = $_GET['oauth_token'];
+$user_id = $_GET['usr_id'];
+
 try
 {
     OAuthRequester::requestAccessToken($consumer_key, $oauth_token, $user_id);
