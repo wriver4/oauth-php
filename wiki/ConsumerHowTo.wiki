@@ -1,10 +1,10 @@
 #summary OAuth Consumer How To
 
-= OAuth Consumer Introduction =
+= OAuth Consumer =
 
 This gives an overview how you can use the `oauth-php` library when you want to connect to a server.
 
-= How To's =
+= Add, List And Delete Servers =
 
 == Add the OAuth server to which you want to connect ==
 
@@ -51,3 +51,36 @@ You can simply delete an OAuth server from the registry.  You need to supply the
 $store = OAuthStore::instance();
 $store->deleteServer($consumer_key, $user_id);
 }}}
+
+
+= Connect To A Server =
+
+Before you can make OAuth signed calls to an OAuth enabled server, you have to obtain authorization from an user on that server.  This can be done with the `OAuthRequester` class.
+
+First we need to obtain a request token from the OAuth server.  The OAuthRequester will request an instance of the OAuthStore for finding the needed uris.  When you don't use the default MySQL store you will need to request an instance of the store (supplying the correct initialisation parameters) before calling the method below.
+
+I assume you have somewhere a function `uri_append()`.
+
+{{{
+$token = OAuthRequester::requestRequestToken($consumer_key, $user_id);
+
+// Callback to my site, will be called when we finished the authorization
+$callback_uri = 'http://www.mysite.com/callback?consumer_key='.rawurlencode($consumer_key);
+
+// Now redirect to the autorization uri and get us authorized
+if (!empty($token['authorize_uri']))
+{
+    // Redirect to the server, add a callback to our server
+    // We will sign with the request token we obtained
+    $uri = uri_append($token['authorize_uri'], 
+                                    array('oauth_token' => $token['token'],'oauth_callback' => $callback_uri) );
+
+...
+}
+else
+{
+    // No authorization uri, assume we are authorized, exchange request token for access token
+   $uri = uri_append($callback_uri, array('oauth_token' => $token['token']));
+}
+}}}
+
