@@ -33,7 +33,7 @@ $consumer_key = $store->updateServer($server, $user_id);
 }}}
 
 
-== List all OAuth servers
+== List all OAuth servers ==
 
 You can easily obtain a list of all registered OAuth servers.  This will return an array with the full description of all servers registered for a certain user.
 
