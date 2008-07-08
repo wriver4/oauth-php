@@ -57,6 +57,8 @@ if (OAuthRequestVerifier::requestIsSigned())
 
 = 1. `oauth_register.php` obtain consumer key and secret =
 
+Every consumer uses a combination of a consumer key with a consumer secret and a token with a token secret to sign its requests.  An user must first obtain a consumer key with a consumer secret before (s)he can start requesting access to the server.
+
 {{{
 // The currently logged on user
 $user_id = 1;
