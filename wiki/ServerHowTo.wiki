@@ -55,7 +55,7 @@ if (OAuthRequestVerifier::requestIsSigned())
 }}}
 
 
-= 1. `oauth_register.php` obtain consumer key and secret =
+= Controller 1. `oauth_register.php` obtain consumer key and secret =
 
 Every consumer uses a combination of a consumer key with a consumer secret and a token with a token secret to sign its requests.  An user must first obtain a consumer key with a consumer secret before (s)he can start requesting access to the server.
 
@@ -107,7 +107,7 @@ $store = OAuthStore::instance();
 $list = $store->listConsumers($user_id);
 }}}
 
-= 2. `request_token.php` return a request token =
+= Controller 2. `request_token.php` return a request token =
 
 After the consumer got a consumer key and secret it can request a request token for obtaining user authorization.
 
@@ -116,7 +116,7 @@ $server = new OAuthServer();
 $server->requestToken();
 }}}
 
-= 3. `authorize.php` user authorization of a request token =
+= Controller 3. `authorize.php` user authorization of a request token =
 
 This controller asks the user if it allows the consumer to access his account.  When allowed then the consumer can exchange his request token for an access token.  
 
@@ -159,7 +159,7 @@ catch (OAuthException $e)
 
 }}}
 
-= 4. `access_token.php` exchange authorized request token for an access token =
+= Controller 4. `access_token.php` exchange authorized request token for an access token =
 
 This exchanges an authorized request token for an access token.  The access token (and associated secret) can be used to sign requests.
 
