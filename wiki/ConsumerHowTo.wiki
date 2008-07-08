@@ -1,5 +1,5 @@
 #summary OAuth Consumer How To
-#labels Featured
+#labels Featured,Phase-Implementation
 
 = OAuth Consumer =
 
