@@ -1,0 +1,78 @@
+#summary Quick How To for OAuth enabling a server
+
+= Introduction =
+
+Adding OAuth authentication to your server is very easy.  You will need to check the incoming requests for any OAuth authentication details.  Some simple templates will be needed to handle the authorization of request tokens and for handling requests for access tokens. 
+
+You will need a couple of controllers:
+
+ # `oauth_register.php` to let an user obtain a consumer key and secret.
+ # `request_token.php`  to return a request token.
+ # `authorize.php` to let the user authorize a request token.
+ # `access_token.php`  to exchange an authorized request token for an access token.
+
+= OAuthStore =
+
+In the examples below I assume that you use the default MySQL store for the OAuth credentials.  You can select another store by first requesting an OAuthStore instance with a parameter telling which store is needed:
+
+{{{
+$store = OAuthStore::instance('mystore');
+}}}
+
+This assumes that you have a file `OAuthStoremystore.php` in the store directory.  You can check the `OAuthStoreMySQL.php` for an example implementation.
+
+
+= Checking A Request For Authorization =
+
+At the start of every request handled by your application you can check if the request contains OAuth authorization information.
+
+{{{
+if (OAuthRequestVerifier::requestIsSigned())
+{
+	try
+	{
+		$req = new OAuthRequestVerifier();
+		$user_id = $req->verify();
+
+		// If we have an user_id, then login as that user (for this request)
+		if ($user_id)
+		{
+			// **** Add your own code here ****
+		}
+	}
+	catch (OAuthException $e)
+	{
+		// The request was signed, but failed verification
+		header('HTTP/1.1 401 Unauthorized');
+		header('WWW-Authenticate: OAuth realm=""');
+		header('Content-Type: text/plain; charset=utf8');
+					
+		echo $e->getMessage();
+		exit();
+	}
+}
+}}}
+
+
+= 1. `oauth_register.php` obtain consumer key and secret =
+
+{{{
+$server = new OAuthServer();
+$server->requestToken();
+}}}
+
+= 2. `request_token.php` return a request token =
+
+{{{
+$server = new OAuthServer();
+$server->requestToken();
+}}}
+
+= 3. `authorize.php` user authorization of a request token =
+
+= 4. `access_token.php` exchange authorized request token for an access token =
+
+{{{
+$server = new OAuthServer();
+$server->accessToken();
+}}}
