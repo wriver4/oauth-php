@@ -113,7 +113,8 @@ After the consumer got a consumer key and secret it can request a request token 
 
 {{{
 $server = new OAuthServer();
-$server->requestToken();
+$token = $server->requestToken();
+exit();
 }}}
 
 = Controller 3. `authorize.php` user authorization of a request token =
