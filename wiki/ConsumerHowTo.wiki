@@ -83,7 +83,7 @@ $callback_uri = 'http://www.mysite.com/callback?consumer_key='.rawurlencode($con
 if (!empty($token['authorize_uri']))
 {
     // Redirect to the server, add a callback to our server
-    if (strpos($token['authorize_uri', '?'))
+    if (strpos($token['authorize_uri'], '?'))
     {
         $uri = $token['authorize_uri'] . '&'; 
     }
