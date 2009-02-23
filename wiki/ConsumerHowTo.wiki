@@ -7,18 +7,32 @@ This gives an overview how you can use the `oauth-php` library when you want to 
 
 The steps you need to do to get access to a server are:
 
+ # Get an instance of the OAuth store
  # Add the server consumer_key and secret to the OAuth library
  # Obtain an access token to the server
  # Authorize the access token (exchanging it for a request token)
 
 And now you can make signed requests to the server.
 
+= Step 0: Instantiate an OAuth store =
+
+Before doing any calls with the OAuth library, you need to have a store instance. oauth-php uses a singleton instance of the store for each request, so you'll have to instantiate it once yourself for the OAuth store to know which store singleton to use.
+
+Per default oauth-php will instantiate an `OAuthStoreMySQL` store with default arguments for username, password and host.
+
+For use with MySQL, you can instantiate the store like this:
+
+{{{
+$options = array('server' => 'localhost', 'username' => 'john',
+                 'password' => 'secret',  'database' => 'johns_db');
+$store   = OAuthStore::instance('MySQL', $options);
+}}}
 
 = Step 1: Add Server To OAuth =
 
 == Add the OAuth server to which you want to connect ==
 
-First fetch an instance of the OAuthStore you want to use, per default this will instantiate an `OAuthStoreMySQL` store.  Then add the server to the store, this will return the consumer_key from the , the `user_id` is the id of the currently logged on user.
+Now, add the server to the store, this will return the consumer_key from the store, the `user_id` is the id of the currently logged on user.
 
 You need to obtain the consumer key and consumer secret from the server. Every web site has a place where it is explained how you can obtain a key and secret for your application.
 
@@ -38,7 +52,6 @@ $server = array(
 );
 
 // Save the server in the the OAuthStore
-$store = OAuthStore::instance();
 $consumer_key = $store->updateServer($server, $user_id);
 }}}
 
@@ -48,7 +61,6 @@ $consumer_key = $store->updateServer($server, $user_id);
 You can easily obtain a list of all registered OAuth servers.  This will return an array with the full description of all servers registered for a certain user.
 
 {{{
-$store = OAuthStore::instance();
 $servers = $store->listServers($optional_filter_text, $user_id);
 }}}
 
@@ -58,7 +70,6 @@ $servers = $store->listServers($optional_filter_text, $user_id);
 You can simply delete an OAuth server from the registry.  You need to supply the user id for which you want to delete the server.
 
 {{{
-$store = OAuthStore::instance();
 $store->deleteServer($consumer_key, $user_id);
 }}}
 
