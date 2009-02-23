@@ -14,7 +14,7 @@ The steps you need to do to get access to a server are:
 
 And now you can make signed requests to the server.
 
-= Step 0: Instantiate an OAuth store =
+= Step 1: Instantiate an OAuth store =
 
 Before doing any calls with the OAuth library, you need to have a store instance. oauth-php uses a singleton instance of the store for each request, so you'll have to instantiate it once yourself for the OAuth store to know which store singleton to use.
 
@@ -28,7 +28,7 @@ $options = array('server' => 'localhost', 'username' => 'john',
 $store   = OAuthStore::instance('MySQL', $options);
 }}}
 
-= Step 1: Add Server To OAuth =
+= Step 2: Add Server To OAuth =
 
 == Add the OAuth server to which you want to connect ==
 
