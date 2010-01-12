@@ -87,9 +87,9 @@ $key   = $store->updateConsumer($consumer, $user_id);
 $consumer = $store->getConsumer($key);
 
 // Some interesting fields, the user will need the key and secret
-$consumer_id = $consumer['osr_id'];
-$consumer_key = $consumer['osr_consumer_key'];
-$consumer_secret = $consumer['osr_consumer_secret'];
+$consumer_id = $consumer['id'];
+$consumer_key = $consumer['consumer_key'];
+$consumer_secret = $consumer['consumer_secret'];
 }}}
 
 When you want to update a previously registered consumer, then supply the `id` of the consumer, the `consumer_key` and the `consumer_secret`.  The key and secret can not be changed and are used as extra verification during the update.
