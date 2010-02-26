@@ -7,7 +7,9 @@
 
 This gives an overview how you can use the `oauth-php` library when you want to connect to a server.
 
-The steps you need to do to get access to a server are:
+If you *only need 2-legged OAuth* (which is probably the most common case), see the section [ConsumerHowTo#Two-legged_OAuth]. There's a complete example there on how to use it.
+
+For 3-legged OAuth, the steps you need to do to get access to a server are:
 
  # Get an instance of the OAuth store
  # Add the server consumer_key and secret to the OAuth library
@@ -16,9 +18,47 @@ The steps you need to do to get access to a server are:
 
 And now you can make signed requests to the server.
 
-This files details how to do 3-legged OAuth. If you *only need 2-legged OAuth* (which is probably the most common case), see the section [ConsumerHowTo#Two-legged_OAuth] at the end of this page.
+= Two-legged OAuth =
 
-= Step 1: Instantiate an OAuth store =
+There's a separate store in the code for 2-legged OAuth, called `OAuthStore2Leg`. It does not depend on a database, and thus it's much easier to use. Here's a complete example:
+
+{{{
+
+include_once "oauth-php/library/OAuthStore.php";
+include_once "oauth-php/library/OAuthRequester.php";
+
+$key = '???????'; // this is your consumer key
+$secret = '????????'; // this is your secret key
+
+$options = array( 'consumer_key' => $key, 'consumer_secret' => $secret );
+OAuthStore::instance("2Leg", $options );
+
+$url = "?????????"; // this is the URL of the request
+$method = "GET"; // you can also use POST instead
+$params = null;
+
+try
+{
+	// Obtain a request object for the request we want to make
+	$request = new OAuthRequester($url, $method, $params);
+
+	// Sign the request, perform a curl request and return the results, 
+	// throws OAuthException2 exception on an error
+	// $result is an array of the form: array ('code'=>int, 'headers'=>array(), 'body'=>string)
+	$result = $request->doRequest();
+	
+	$response = $result['body'];
+}
+catch(OAuthException2 $e)
+{
+
+}
+
+}}}
+
+
+= Three-legged OAuth =
+== Step 1: Instantiate an OAuth store ==
 
 Before doing any calls with the OAuth library, you need to have a store instance. oauth-php uses a singleton instance of the store for each request, so you'll have to instantiate it once yourself for the OAuth store to know which store singleton to use.
 
@@ -60,7 +100,7 @@ $consumer_key = $store->updateServer($server, $user_id);
 }}}
 
 
-== List all OAuth servers ==
+=== List all OAuth servers ===
 
 You can easily obtain a list of all registered OAuth servers.  This will return an array with the full description of all servers registered for a certain user.
 
@@ -69,7 +109,7 @@ $servers = $store->listServers($optional_filter_text, $user_id);
 }}}
 
 
-== Delete an OAuth server from the registry ==
+=== Delete an OAuth server from the registry ===
 
 You can simply delete an OAuth server from the registry.  You need to supply the user id for which you want to delete the server.
 
@@ -78,7 +118,7 @@ $store->deleteServer($consumer_key, $user_id);
 }}}
 
 
-= Step 3: Obtain Access To A Server =
+== Step 3: Obtain Access To A Server ==
 
 Before you can make OAuth signed calls to an OAuth enabled server, you have to obtain authorization from an user on that server.  This can be done with the `OAuthRequester` class.
 
@@ -120,7 +160,7 @@ exit();
 }}}
 
 
-= Step 4: Exchange Request Token For Access Token =
+== Step 4: Exchange Request Token For Access Token ==
 
 You also have to implement a callback http handler.  This is called by the OAuth server whenever the user authorized our request token.  When we are authorized, then we can exchange our request token for an access token.
 
@@ -146,7 +186,7 @@ catch (OAuthException $e)
 }}}
 
 
-= Step 5: Make A Signed Request =
+== Step 5: Make A Signed Request ==
 
 When you make a request to an OAuth enabled server you need to sign it with the access token and secrets we obtained when we obtained access to the server.
  
@@ -170,14 +210,3 @@ $result = $req->doRequest($user_id);
 
 // $result is an array of the form: array ('code'=>int, 'headers'=>array(), 'body'=>string)
 }}}
-
-= Two-legged OAuth =
-
-There's a separate store in the code for 2-legged OAuth, called `OAuthStore2Leg`. It does not depend on a database, and thus it's much easier to use. To instantiate it:
-
-{{{
-$options = array('consumer_key' => 'xxxxxxxxx', 'consumer_secret' => 'xxxxxxxxx');
-$store   = OAuthStore::instance('Store2Leg', $options);
-}}}
-
-You can then skip step 2.
