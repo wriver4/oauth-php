@@ -16,7 +16,7 @@ The steps you need to do to get access to a server are:
 
 And now you can make signed requests to the server.
 
-This files details how to do 3-legged OAuth. If you *only need 2-legged OAuth* (which is probably the most common case), see the section [#Two-legged_OAuth] at the end of this page.
+This files details how to do 3-legged OAuth. If you *only need 2-legged OAuth* (which is probably the most common case), see the section [ConsumerHowTo#Two-legged_OAuth] at the end of this page.
 
 = Step 1: Instantiate an OAuth store =
 
