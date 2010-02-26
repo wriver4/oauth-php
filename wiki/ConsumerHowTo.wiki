@@ -1,6 +1,8 @@
 #summary OAuth Consumer How To
 #labels Featured,Phase-Implementation
 
+<wiki:toc max_depth="1" />
+
 = OAuth Consumer =
 
 This gives an overview how you can use the `oauth-php` library when you want to connect to a server.
@@ -14,7 +16,7 @@ The steps you need to do to get access to a server are:
 
 And now you can make signed requests to the server.
 
-This files details how to do 3-legged OAuth. If you need 2-legged OAuth, see the 
+This files details how to do 3-legged OAuth. If you *only need 2-legged OAuth* (which is probably the most common case), see the section [#Two-legged_OAuth] at the end of this page.
 
 = Step 1: Instantiate an OAuth store =
 
@@ -169,7 +171,7 @@ $result = $req->doRequest($user_id);
 // $result is an array of the form: array ('code'=>int, 'headers'=>array(), 'body'=>string)
 }}}
 
-= 2-legged OAuth =
+= Two-legged OAuth =
 
 There's a separate store in the code for 2-legged OAuth, called `OAuthStore2Leg`. It does not depend on a database, and thus it's much easier to use. To instantiate it:
 
