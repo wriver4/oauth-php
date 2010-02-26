@@ -72,9 +72,9 @@ $options = array('server' => 'localhost', 'username' => 'john',
 $store   = OAuthStore::instance('MySQL', $options);
 }}}
 
-= Step 2: Add Server To OAuth =
+== Step 2: Add Server To OAuth ==
 
-== Add the OAuth server to which you want to connect ==
+=== Add the OAuth server to which you want to connect ===
 
 Now, add the server to the store, this will return the consumer_key from the store, the `user_id` is the id of the currently logged on user.
 
