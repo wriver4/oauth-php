@@ -14,6 +14,8 @@ The steps you need to do to get access to a server are:
 
 And now you can make signed requests to the server.
 
+This files details how to do 3-legged OAuth. If you need 2-legged OAuth, see the 
+
 = Step 1: Instantiate an OAuth store =
 
 Before doing any calls with the OAuth library, you need to have a store instance. oauth-php uses a singleton instance of the store for each request, so you'll have to instantiate it once yourself for the OAuth store to know which store singleton to use.
@@ -166,3 +168,14 @@ $result = $req->doRequest($user_id);
 
 // $result is an array of the form: array ('code'=>int, 'headers'=>array(), 'body'=>string)
 }}}
+
+= 2-legged OAuth =
+
+There's a separate store in the code for 2-legged OAuth, called `OAuthStore2Leg`. It does not depend on a database, and thus it's much easier to use. To instantiate it:
+
+{{{
+$options = array('consumer_key' => 'xxxxxxxxx', 'consumer_secret' => 'xxxxxxxxx');
+$store   = OAuthStore::instance('Store2Leg', $options);
+}}}
+
+You can then skip step 2.
