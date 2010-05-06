@@ -168,3 +168,9 @@ This exchanges an authorized request token for an access token.  The access toke
 $server = new OAuthServer();
 $server->accessToken();
 }}}
+
+= The OOB =
+
+OAuth defines "OOB" (Out-Of-Band). This can be used for applications that do not have a callback, such as mobile phones.
+
+If you are getting a redirection to a URL such as http://oob/?oauth_token=xxxxxxxxxxxxxxx&oauth_verifier=xxxxxxxxxxxx, a sure solution is to set the 'oauth_callback' parameter in the query parameters.
