@@ -9,6 +9,8 @@ This gives an overview how you can use the `oauth-php` library when you want to 
 
 If you *only need 2-legged OAuth* (which is probably the most common case), see the section [ConsumerHowTo#Two-legged_OAuth]. There's a complete example there on how to use it.
 
+Here are some real-life examples:
+
 For 3-legged OAuth, the steps you need to do to get access to a server are:
 
  # Get an instance of the OAuth store
@@ -20,7 +22,7 @@ And now you can make signed requests to the server.
 
 = Two-legged OAuth =
 
-There's a separate store in the code for 2-legged OAuth, called `OAuthStore2Leg`. It does not depend on a database, and thus it's much easier to use. Here's a complete example:
+There's a separate store in the code for 2-legged OAuth, called `OAuthStore2Leg`. It does not depend on a database, and thus it's much easier to use. Here's a sample example:
 
 {{{
 
@@ -55,6 +57,8 @@ catch(OAuthException2 $e)
 }
 
 }}}
+
+There are some real life examples [http://code.google.com/p/oauth-php/source/browse/#svn/trunk/example/client in the package], including a [http://code.google.com/p/oauth-php/source/browse/trunk/example/client/twoleggedtwitter.php Twitter example].
 
 
 = Three-legged OAuth =
